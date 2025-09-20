@@ -4,7 +4,7 @@ using UnityEngine;
 public class Delivery : MonoBehaviour
 {
     [SerializeField] bool hasPackage;
-    [SerializeField] float delay = 0.5f;
+    [SerializeField] float delay = 0.3f;
     void OnTriggerEnter2D(Collider2D collision)
     {
 
@@ -12,6 +12,7 @@ public class Delivery : MonoBehaviour
         {
             Debug.Log("Picked up package!");
             hasPackage = true;
+            GetComponent<ParticleSystem>().Play();
             Destroy(collision.gameObject, delay);
 
         }
@@ -19,6 +20,7 @@ public class Delivery : MonoBehaviour
         {
             Debug.Log("Delivered package!");
             hasPackage = false;
+            GetComponent<ParticleSystem>().Stop();
         }
     }
 }
