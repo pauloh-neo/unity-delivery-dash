@@ -1,27 +1,39 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+using TMPro;
 public class Driver : MonoBehaviour
 {
     [SerializeField] float currentSpeed = 5f;
     [SerializeField] float steerSpeed = 200f;
     [SerializeField] float boostSpeed = 10f;
     [SerializeField] float regularSpeed = 5f;
-
     [SerializeField] float delay = 0.3f;
 
+    [SerializeField] TMP_Text boostText;
+
+
+    void Start()
+    {
+        boostText.gameObject.SetActive(false);
+    }
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Boost"))
         {
             currentSpeed = boostSpeed;
+            boostText.gameObject.SetActive(true);
             Destroy(collision.gameObject, delay);
         }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        currentSpeed = regularSpeed;
+        if (collision.collider.CompareTag("WorldCollision"))
+        {
+            currentSpeed = regularSpeed;
+            boostText.gameObject.SetActive(false);
+        }
+        
     }
     void Update()
     {
